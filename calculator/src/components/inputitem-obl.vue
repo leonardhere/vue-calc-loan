@@ -14,5 +14,19 @@
         height: 48px;
         padding-left: 16px;
         padding-right: 36px;
+        margin-right: 20px;
+    }
+    @media (max-width: 768px){
+        select{
+            width: 45%;
+            margin-bottom: 20px;
+        }
+    }
+    @media (max-width: 425px){
+        select{
+            width: 95%;
+            margin-bottom: 20px;
+            margin-right: 0;
+        }
     }
 </style>

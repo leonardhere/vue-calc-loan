@@ -1,21 +1,19 @@
 <template>
   <div id="app">
-    <div class="calculator__head">
-      <h2 class="calculator__head-title">«Краткосрочный займ» в Таганроге</h2>
-      <inputs/>
-    </div>
-    <calc-body/>
+    <main-calc/>
   </div>
 </template>
 
 <script>
 import Inputs from './components/inputs.vue'
 import CalcBody from './components/calcbody.vue'
+import MainCalc from './components/main-calc.vue'
 export default {
   name: 'App',
   components: {
     Inputs,
-    CalcBody
+    CalcBody,
+    MainCalc
   }
 }
 </script>
@@ -30,6 +28,8 @@ export default {
   margin-top: 60px;
   padding: 5%;
   background: #2ba1d4;
+  display: flex;
+  justify-content: center;
 }
 
 .calculator__head h2{
@@ -42,5 +42,11 @@ export default {
   box-shadow: 0 0 40px 0 rgb(0 0 0 / 10%);
   border-top-right-radius: 20px;
   border-top-left-radius: 20px;
+  padding: 30px 67px
+}
+@media (max-width: 768px) {
+  .calculator__head{
+    padding: 30px 25px;
+  }
 }
 </style>

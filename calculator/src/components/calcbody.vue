@@ -1,40 +1,48 @@
 <template>
 <div class="calc-main">
-    <table class="left__blok">
-    <tr class="left-block-row">
-      <div class="left-block-row-up">
-        <td>Вы занимаете</td>
-        <td>
-          <input v-model.number="price" class="input calc__input">
-        </td>
+    <div class="left__blok">
+    <div class="left-block-row">
+      <div class="left-block-row-inside">
+          <div class="left-block-row-up">
+          <div>Вы занимаете</div>
+          <div class="input_container">
+            <input v-model.number="price" class="input calc__input">
+          </div>
+          </div>
+          <div class="left-block-sum">
+            <div class="sum-min">1 000</div>
+            <div class="sum-max">30 000</div>
+        </div>
       </div>
-      <td colspan="2" class="left-block-range">
-        <input class="input--range" type="range" min="5000" max="100000" step="1000" v-model="price">
-      </td>
-    </tr>
-    <tr>
-    </tr>
-    <tr class="left-block-row">
-      <div class="left-block-row-up">
-        <td>На срок</td>
-        <td>
+      <div class="left-block-range">
+        <input class="input--range" type="range" min="5000" max="30000" step="1000" v-model="price">
+      </div>
+    </div>
+    <div class="left-block-row">
+      <div class="left-block-row-inside">
+        <div class="left-block-row-up">
+        <div>На срок</div>
+        <div class="input_container">
           <input v-model.number="term" class="input calc__input">
-        </td>
+        </div>
       </div>
-      <td colspan="2" class="left-block-range">
-        <input class="input--range" type="range" min="1" max="25" step="1" v-model="term">
-      </td>
-    </tr>
-    <tr>
-    </tr>
-  </table>
-  <table class="right__block">
-    <tr v-for="program in programs" :key="program.id" class="right_column">
-      <td>Процентная ставка <br> {{year_rate(program)}}%</td>
-      <td class="ra">Сумма к возврату <br> {{ tax(program) }} $</td>
-    </tr>
+        <div class="left-block-sum">
+            <div class="sum-min">1</div>
+            <div class="sum-max">60</div>
+        </div>
+      </div>
+      <div class="left-block-range">
+        <input class="input--range" type="range" min="1" max="60" step="1" v-model="term">
+      </div>
+    </div>
+  </div>
+  <div class="right__block">
+    <div v-for="program in programs" :key="program.id" class="right_column">
+      <div>Процентная ставка <br> {{year_rate(program)}}%</div>
+      <div class="ra">Сумма к возврату <br> <span> {{ tax(program) }} ₽</span></div>
+    </div>
     <a href="#" class="solution">Получить решение по займу</a>
-  </table>
+  </div>
 </div>
 </template>
 
@@ -42,12 +50,11 @@
 export default{
   data() {
     return{
-      price: 60000,
-      initial_fee: 3000,
-      term: 5,
+      price: 15000,
+      initial_fee: 1,
+      term: 15,
       programs: [{
-        title: 'Tinkoff',
-        rate: 0.045,
+        rate: 0.01,
       }]
     }
   },
@@ -56,10 +63,10 @@ export default{
       return (program.rate * 100).toFixed(1);
     },
     tax: function(program) {
-      var i = program.rate / 12;
-      var n = this.term * 12;
-      var x = Math.pow(1 + i, n)
-      var sum = this.price - this.initial_fee;
+      const i = program.rate / 365;
+      const n = this.term / 12;
+      const x = Math.pow(1 + i, n)
+      const sum = this.price + this.initial_fee;
       return Math.round(sum * (i * x) / (x - 1));
     },
   },
@@ -77,14 +84,49 @@ export default{
 
 
 <style scoped>
+
+.ra {
+    opacity: 0.8;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    color: #fcfeff;
+}
+
+.ra span {
+  opacity: 1;
+  font-size: 38px;
+}
+
 .left__blok{
   width: 70%;
+  margin-right: 20px;
+}
+
+.calc__input[data-v-4d4eba07]{
+  border-radius: 6px;
+  background: #ffffff;
+  border: solid 1px #e9eeee;
+  padding: 9px 13px;
+  color: #21405b;
+  width: 30%;
+}
+
+.input_container{
+    display: flex;
+    justify-content: right;
+}
+
+.left-block-sum{
+  display: flex;
+  justify-content: space-between;
 }
 
 .left-block-row-up{
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 20px;
 }
 
 .left-block-row-up td input{
@@ -107,6 +149,11 @@ input {
   width: 100%;
 }
 
+input[type='range']::-webkit-slider-thumb{
+  background: #ff4533;
+}
+
+
 .calc-main{
   display: flex;
   padding: 30px 67px 50px;
@@ -117,6 +164,7 @@ input {
   justify-content: space-between;
 }
 .right__block{
+  width: 280px;
 }
 .right_column{
   display: flex;
@@ -128,6 +176,18 @@ input {
   padding: 29px 0;
   border-radius: 14px;
   margin-bottom: 20px;
+  position: relative;
+}
+
+.right_column::before{
+  position: absolute;
+    top: 100%;
+    left: 50%;
+    content: '';
+    margin-left: -8px;
+    border-width: 8px 8px 0;
+    border-style: solid;
+    border-color: #2b77d4 transparent;
 }
 
 .solution{
@@ -145,5 +205,23 @@ input {
 
 .calc__input{
   width: 81%;
+}
+
+@media (max-width: 768px){
+  .calc-main{
+    display: flex;
+    flex-direction: column;
+  }
+  .left__blok{
+    width: 100%;
+  }
+  .right__block{
+    width: 100%;
+  }
+}
+@media (max-width: 425px){
+    .calc-main{
+      padding: 30px 20px 50px;
+  }
 }
 </style>

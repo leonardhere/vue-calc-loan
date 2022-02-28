@@ -29,4 +29,9 @@ export default {
     display: flex;
     justify-content: space-evenly;
   }
+  @media (max-width: 768px){
+    .select-group{
+      flex-wrap: wrap;
+    }
+  }
 </style>
