@@ -1,18 +1,15 @@
 <template>
   <div id="app">
-    <main-calc/>
+    <MainCalc />
   </div>
 </template>
 
 <script>
-import Inputs from './components/inputs.vue'
-import CalcBody from './components/calcbody.vue'
-import MainCalc from './components/main-calc.vue'
+import MainCalc from './components/MainCalc'
+
 export default {
   name: 'App',
   components: {
-    Inputs,
-    CalcBody,
     MainCalc
   }
 }

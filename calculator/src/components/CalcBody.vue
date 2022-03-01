@@ -6,16 +6,16 @@
           <div class="left-block-row-up">
           <div>Вы занимаете</div>
           <div class="input_container">
-            <input v-model.number="price" class="input calc__input">
+            <input v-model.number="amount" class="input calc__input">
           </div>
           </div>
-          <div class="left-block-sum">
-            <div class="sum-min">1 000</div>
-            <div class="sum-max">30 000</div>
+          <div class="left-block-amount">
+            <div class="amount-min">{{ amountMin }}</div>
+            <div class="amount-max">{{ amountMax }}</div>
         </div>
       </div>
       <div class="left-block-range">
-        <input class="input--range" type="range" min="5000" max="30000" step="1000" v-model="price">
+        <Range :min="amountMin" :max="amountMax" :step="amountStep" v-model="amount" />
       </div>
     </div>
     <div class="left-block-row">
@@ -26,20 +26,20 @@
           <input v-model.number="term" class="input calc__input">
         </div>
       </div>
-        <div class="left-block-sum">
-            <div class="sum-min">1</div>
-            <div class="sum-max">60</div>
+        <div class="left-block-amount">
+            <div class="amount-min">{{ termMin }}</div>
+            <div class="amount-max">{{ termMax }}</div>
         </div>
       </div>
       <div class="left-block-range">
-        <input class="input--range" type="range" min="1" max="60" step="1" v-model="term">
+        <Range :min="termMin" :max="termMax" :step="termStep" v-model="term" />
       </div>
     </div>
   </div>
   <div class="right__block">
-    <div v-for="program in programs" :key="program.id" class="right_column">
-      <div>Процентная ставка <br> {{year_rate(program)}}%</div>
-      <div class="ra">Сумма к возврату <br> <span> {{ tax(program) }} ₽</span></div>
+    <div class="right_column">
+      <div>Процентная ставка <br> {{ initial_fee }}%</div>
+      <div class="ra">Сумма к возврату <br> <span> {{ repayment() }} ₽</span></div>
     </div>
     <a href="#" class="solution">Получить решение по займу</a>
   </div>
@@ -47,44 +47,37 @@
 </template>
 
 <script>
-export default{
+import Range from './Inputs/Range'
+
+export default {
+  name: 'CalcBody',
+  components: {
+    Range
+  },
   data() {
-    return{
-      price: 15000,
+    return {
+      amount: 15000,
       initial_fee: 1,
       term: 15,
-      programs: [{
-        rate: 0.01,
-      }]
+
+      amountMin: 5000,
+      amountMax: 30000,
+      amountStep: 1000,
+
+      termMin: 1,
+      termMax: 60,
+      termStep: 1,
     }
   },
   methods: {
-    year_rate: function(program) {
-      return (program.rate * 100).toFixed(1);
-    },
-    tax: function(program) {
-      const i = program.rate / 365;
-      const n = this.term / 12;
-      const x = Math.pow(1 + i, n)
-      const sum = this.price + this.initial_fee;
-      return Math.round(sum * (i * x) / (x - 1));
+    repayment() {
+      return Math.round(this.amount + (((this.amount / 100) / this.initial_fee) * this.term));
     },
   },
-  watch: {
-    price: function(value) {
-      this.price < this.initial_fee && (this.initial_fee = this.price);
-    },
-    initial_fee: function(fee) {
-      this.initial_fee > this.price && (this.initial_fee = this.price);
-    },
-  }
-
 }
 </script>
 
-
 <style scoped>
-
 .ra {
     opacity: 0.8;
     font-size: 14px;
@@ -117,7 +110,7 @@ export default{
     justify-content: right;
 }
 
-.left-block-sum{
+.left-block-amount{
   display: flex;
   justify-content: space-between;
 }
