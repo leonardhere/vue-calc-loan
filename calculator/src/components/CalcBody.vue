@@ -9,14 +9,14 @@
             <input v-model.number="amount" class="input calc__input">
           </div>
           </div>
-          <div class="left-block-amount">
-            <div class="amount-min">{{ amountMin }}</div>
-            <div class="amount-max">{{ amountMax }}</div>
-        </div>
       </div>
       <div class="left-block-range">
         <Range :min="amountMin" :max="amountMax" :step="amountStep" v-model="amount" />
       </div>
+          <div class="left-block-amount">
+            <div class="amount-min">{{ amountMin }}</div>
+            <div class="amount-max">{{ amountMax }}</div>
+        </div>
     </div>
     <div class="left-block-row">
       <div class="left-block-row-inside">
@@ -26,20 +26,22 @@
           <input v-model.number="term" class="input calc__input">
         </div>
       </div>
-        <div class="left-block-amount">
-            <div class="amount-min">{{ termMin }}</div>
-            <div class="amount-max">{{ termMax }}</div>
-        </div>
       </div>
       <div class="left-block-range">
         <Range :min="termMin" :max="termMax" :step="termStep" v-model="term" />
       </div>
+        <div class="left-block-amount">
+            <div class="amount-min">{{ termMin }}</div>
+            <div class="amount-max">{{ termMax }}</div>
+        </div>
     </div>
   </div>
   <div class="right__block">
     <div class="right_column">
-      <div>Процентная ставка <br> {{ initial_fee }}%</div>
-      <div class="ra">Сумма к возврату <br> <span> {{ repayment() }} ₽</span></div>
+      <div>Процентная ставка</div>
+      <div class="percent-value"> {{ initial_fee }} <span>%</span> </div>
+      <div class="ra">Сумма к возврату</div>
+      <div class="payback-value"> {{ repayment() }} <span>₽</span></div>
     </div>
     <a href="#" class="solution">Получить решение по займу</a>
   </div>
@@ -71,7 +73,7 @@ export default {
   },
   methods: {
     repayment() {
-      return Math.round(this.amount + (((this.amount / 100) / this.initial_fee) * this.term));
+      return Math.round(Number(this.amount) + (((this.amount / 100) / this.initial_fee) * this.term));
     },
   },
 }
@@ -86,9 +88,29 @@ export default {
     color: #fcfeff;
 }
 
-.ra span {
+.percent-value{
+  font-size: 40px;
+  font-weight: 100;
+  color: #fcfeff;
+  font-weight: lighter;
+  line-height: 1.3;
+}
+
+.percent-value span {
+  font-weight: bold;
+}
+
+.payback-value {
   opacity: 1;
-  font-size: 38px;
+  font-size: 40px;
+  color: #fcfeff;
+  line-height: 1.3;
+  margin-top: 10px;
+  font-weight: lighter;
+}
+
+.payback-value span {
+  font-weight: bold;
 }
 
 .left__blok{
@@ -96,13 +118,13 @@ export default {
   margin-right: 20px;
 }
 
-.calc__input[data-v-4d4eba07]{
+.calc__input{
   border-radius: 6px;
   background: #ffffff;
   border: solid 1px #e9eeee;
   padding: 9px 13px;
   color: #21405b;
-  width: 30%;
+  width: 30% !important;
 }
 
 .input_container{
@@ -113,13 +135,19 @@ export default {
 .left-block-amount{
   display: flex;
   justify-content: space-between;
+  opacity: 0.4;
+  font-size: 14px;
+  color: #21405b;
+  margin-top: 7px;
 }
+
 
 .left-block-row-up{
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 20px;
+  margin-top: 5px;
 }
 
 .left-block-row-up td input{
@@ -194,6 +222,11 @@ input[type='range']::-webkit-slider-thumb{
     padding: 15px 20px;
     text-decoration: none;
     border-radius: 100px;
+    transition: all 1s;
+}
+
+.solution:hover{
+  opacity: 0.5;
 }
 
 .calc__input{

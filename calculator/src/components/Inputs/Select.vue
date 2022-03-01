@@ -27,6 +27,17 @@ select {
     padding-left: 16px;
     padding-right: 36px;
     margin-right: 20px;
+    -o-appearance: none;
+    -ms-appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url(../../img/arrow.png);
+    background-repeat: no-repeat;
+    background-position-x: 95%;
+    background-position-y: 20px;
+    cursor: pointer;
+    
 }
 @media (max-width: 768px) {
     select {
